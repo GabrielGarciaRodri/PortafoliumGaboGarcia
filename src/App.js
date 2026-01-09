@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Menu, X, Mail, Phone, Github, Linkedin, Globe, ChevronDown, Code, Server, Database, Cloud, Smartphone } from 'lucide-react';
+import { Menu, X, Mail, Phone, Github, Linkedin, Globe, ChevronDown, Code, Server, Database, Cloud, Smartphone, ExternalLink, Folder } from 'lucide-react';
 
 const Portfolio = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -16,7 +16,7 @@ const Portfolio = () => {
   // Detectar sección activa al hacer scroll
   useEffect(() => {
     const handleScroll = () => {
-      const sections = ['inicio', 'sobre-mi', 'experiencia', 'habilidades', 'contacto'];
+      const sections = ['inicio', 'sobre-mi', 'experiencia', 'proyectos', 'habilidades', 'contacto'];
       const scrollPosition = window.scrollY + 100;
 
       for (const section of sections) {
@@ -40,7 +40,7 @@ const Portfolio = () => {
     {
       empresa: "Fundación Soluciones Colombia",
       cargo: "Desarrollador Full Stack",
-      periodo: "Octubre 2024 - Presente",
+      periodo: "Octubre 2024 - Noviembre 2025",
       descripcion: "Desarrollo de aplicaciones web empresariales y soluciones móviles. Implementación de sistemas de autenticación robustos y gestión de infraestructura cloud.",
       logros: [
         "Aplicación web que redujo errores de datos en 35%",
@@ -51,7 +51,7 @@ const Portfolio = () => {
     {
       empresa: "RedBubble",
       cargo: "Asistente T.I",
-      periodo: "Noviembre 2023 - Diciembre 2024",
+      periodo: "Enero 2023 - Noviembre 2023",
       descripcion: "Administración de aplicaciones corporativas y plataformas CRM. Optimización de servicios cloud y soporte técnico especializado.",
       logros: [
         "Sistema de tickets que redujo tiempo de resolución en 45%",
@@ -60,13 +60,52 @@ const Portfolio = () => {
     }
   ];
 
+  // Datos de proyectos
+  const proyectos = [
+    {
+      nombre: "FinanceCore",
+      descripcion: "Sistema ETL financiero de nivel empresarial diseñado con principios de Clean Architecture, CQRS y Domain-Driven Design. Permite el procesamiento y transformación de datos financieros con alta escalabilidad y mantenibilidad.",
+      tecnologias: [".NET", "PostgreSQL", "Clean Architecture", "CQRS", "DDD"],
+      github: "https://github.com/GabrielGarciaRodri/FinanceCore",
+      destacado: true,
+      tipo: "Backend"
+    },
+    {
+      nombre: "Core_in",
+      descripcion: "Microservicio de autenticación centralizado que proporciona gestión segura de usuarios, tokens JWT y control de acceso. Diseñado para integrarse fácilmente con múltiples aplicaciones.",
+      tecnologias: ["NestJS", "MongoDB", "JWT", "API RESTful"],
+      github: "https://github.com/GabrielGarciaRodri/Core_in",
+      destacado: true,
+      tipo: "Backend"
+    },
+    {
+      nombre: "AWS Pipeline Project",
+      descripcion: "Infraestructura cloud completa con pipeline CI/CD automatizado. Implementa despliegue continuo utilizando contenedores Docker, bases de datos gestionadas y servicios de cómputo escalables en AWS.",
+      tecnologias: ["Terraform", "AWS EC2", "ECS", "RDS", "PostgreSQL", "Docker", "Node.js"],
+      github: "https://github.com/GabrielGarciaRodri/aws-pipeline-project",
+      destacado: true,
+      tipo: "DevOps"
+    }
+  ];
+
   // Datos de habilidades
   const habilidades = {
     frontend: ["React", "React Native", "Vue.js 3", "Quasar", "HTML/CSS", "JavaScript"],
-    backend: ["Node.js", "NestJS", "Java", "Spring Boot", "APIs RESTful"],
+    backend: ["Node.js", "NestJS", ".NET", "APIs RESTful", "SOAP"],
     database: ["MongoDB", "MySQL", "PostgreSQL"],
-    cloud: ["Google Cloud Platform", "AWS S3", "Lambda", "API Gateway"],
-    tools: ["Git", "GitHub", "GitLab", "Swagger", "Postman", "Jest"]
+    cloud: ["Google Cloud Platform", "AWS S3", "Lambda", "API Gateway", "EC2", "ECS", "RDS", "Terraform"],
+    tools: ["Git", "GitHub", "GitLab", "Swagger", "Postman", "Jest", "Docker"]
+  };
+
+  // Función para obtener el color del tipo de proyecto
+  const getTipoColor = (tipo) => {
+    const colores = {
+      'Backend': 'bg-emerald-500',
+      'Frontend': 'bg-blue-500',
+      'DevOps': 'bg-orange-500',
+      'Full Stack': 'bg-purple-500'
+    };
+    return colores[tipo] || 'bg-gray-500';
   };
 
   return (
@@ -79,7 +118,7 @@ const Portfolio = () => {
             
             {/* Desktop Navigation */}
             <ul className="hidden md:flex space-x-8">
-              {['inicio', 'sobre-mi', 'experiencia', 'habilidades', 'contacto'].map((item) => (
+              {['inicio', 'sobre-mi', 'experiencia', 'proyectos', 'habilidades', 'contacto'].map((item) => (
                 <li key={item}>
                   <button
                     onClick={() => scrollToSection(item)}
@@ -117,7 +156,7 @@ const Portfolio = () => {
           {/* Mobile Navigation */}
           {isMenuOpen && (
             <ul className={`md:hidden mt-4 space-y-4 pb-4 border-t ${isDarkMode ? 'border-gray-800' : 'border-gray-200'} pt-4`}>
-              {['inicio', 'sobre-mi', 'experiencia', 'habilidades', 'contacto'].map((item) => (
+              {['inicio', 'sobre-mi', 'experiencia', 'proyectos', 'habilidades', 'contacto'].map((item) => (
                 <li key={item}>
                   <button
                     onClick={() => scrollToSection(item)}
@@ -228,21 +267,101 @@ const Portfolio = () => {
         </div>
       </section>
 
+      {/* Proyectos */}
+      <section id="proyectos" className={`py-20 ${isDarkMode ? 'bg-gray-800' : 'bg-gray-50'}`}>
+        <div className="container mx-auto px-6">
+          <h3 className="text-3xl md:text-4xl font-bold text-center mb-4">Proyectos Destacados</h3>
+          <p className={`text-center mb-12 ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+            Una selección de proyectos personales que demuestran mis habilidades técnicas
+          </p>
+          
+          <div className="max-w-6xl mx-auto grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {proyectos.map((proyecto, index) => (
+              <div 
+                key={index} 
+                className={`group relative rounded-xl overflow-hidden ${isDarkMode ? 'bg-gray-900' : 'bg-white'} shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2`}
+              >
+                {/* Header del proyecto con icono */}
+                <div className={`p-6 border-b ${isDarkMode ? 'border-gray-800' : 'border-gray-100'}`}>
+                  <div className="flex items-center justify-between mb-4">
+                    <div className={`p-3 rounded-lg ${isDarkMode ? 'bg-gray-800' : 'bg-gray-100'}`}>
+                      <Folder className="text-blue-600" size={24} />
+                    </div>
+                    <div className="flex items-center space-x-3">
+                      <a 
+                        href={proyecto.github} 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className={`p-2 rounded-lg transition-colors ${isDarkMode ? 'hover:bg-gray-800' : 'hover:bg-gray-100'}`}
+                      >
+                        <Github size={20} />
+                      </a>
+                    </div>
+                  </div>
+                  
+                  <div className="flex items-center gap-2 mb-2">
+                    <h4 className="text-xl font-semibold">{proyecto.nombre}</h4>
+                    <span className={`px-2 py-0.5 text-xs text-white rounded-full ${getTipoColor(proyecto.tipo)}`}>
+                      {proyecto.tipo}
+                    </span>
+                  </div>
+                </div>
+
+                {/* Contenido */}
+                <div className="p-6">
+                  <p className={`text-sm mb-6 leading-relaxed ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+                    {proyecto.descripcion}
+                  </p>
+                  
+                  {/* Tecnologías */}
+                  <div className="flex flex-wrap gap-2">
+                    {proyecto.tecnologias.map((tech, i) => (
+                      <span 
+                        key={i} 
+                        className={`px-3 py-1 text-xs rounded-full font-medium ${
+                          isDarkMode 
+                            ? 'bg-gray-800 text-gray-300' 
+                            : 'bg-blue-50 text-blue-700'
+                        }`}
+                      >
+                        {tech}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Hover overlay con link */}
+                <a 
+                  href={proyecto.github}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="absolute inset-0 bg-blue-600/0 group-hover:bg-blue-600/5 transition-colors duration-300 flex items-center justify-center opacity-0 group-hover:opacity-100"
+                >
+                  <span className={`px-4 py-2 rounded-lg ${isDarkMode ? 'bg-gray-900' : 'bg-white'} shadow-lg flex items-center gap-2 font-medium`}>
+                    Ver en GitHub <ExternalLink size={16} />
+                  </span>
+                </a>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* Habilidades */}
-      <section id="habilidades" className={`py-20 ${isDarkMode ? 'bg-gray-800' : 'bg-gray-50'}`}>
+      <section id="habilidades" className="py-20">
         <div className="container mx-auto px-6">
           <h3 className="text-3xl md:text-4xl font-bold text-center mb-12">Habilidades Técnicas</h3>
           
           <div className="max-w-5xl mx-auto grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {/* Frontend */}
-            <div className={`p-6 rounded-lg ${isDarkMode ? 'bg-gray-900' : 'bg-white'} shadow-lg`}>
+            <div className={`p-6 rounded-lg ${isDarkMode ? 'bg-gray-800' : 'bg-white'} shadow-lg`}>
               <div className="flex items-center mb-4">
                 <Code className="text-blue-600 mr-3" size={24} />
                 <h4 className="text-xl font-semibold">Frontend</h4>
               </div>
               <div className="flex flex-wrap gap-2">
                 {habilidades.frontend.map((skill) => (
-                  <span key={skill} className={`px-3 py-1 text-sm rounded-full ${isDarkMode ? 'bg-gray-800' : 'bg-gray-100'}`}>
+                  <span key={skill} className={`px-3 py-1 text-sm rounded-full ${isDarkMode ? 'bg-gray-700' : 'bg-gray-100'}`}>
                     {skill}
                   </span>
                 ))}
@@ -250,14 +369,14 @@ const Portfolio = () => {
             </div>
 
             {/* Backend */}
-            <div className={`p-6 rounded-lg ${isDarkMode ? 'bg-gray-900' : 'bg-white'} shadow-lg`}>
+            <div className={`p-6 rounded-lg ${isDarkMode ? 'bg-gray-800' : 'bg-white'} shadow-lg`}>
               <div className="flex items-center mb-4">
                 <Server className="text-blue-600 mr-3" size={24} />
                 <h4 className="text-xl font-semibold">Backend</h4>
               </div>
               <div className="flex flex-wrap gap-2">
                 {habilidades.backend.map((skill) => (
-                  <span key={skill} className={`px-3 py-1 text-sm rounded-full ${isDarkMode ? 'bg-gray-800' : 'bg-gray-100'}`}>
+                  <span key={skill} className={`px-3 py-1 text-sm rounded-full ${isDarkMode ? 'bg-gray-700' : 'bg-gray-100'}`}>
                     {skill}
                   </span>
                 ))}
@@ -265,14 +384,14 @@ const Portfolio = () => {
             </div>
 
             {/* Database */}
-            <div className={`p-6 rounded-lg ${isDarkMode ? 'bg-gray-900' : 'bg-white'} shadow-lg`}>
+            <div className={`p-6 rounded-lg ${isDarkMode ? 'bg-gray-800' : 'bg-white'} shadow-lg`}>
               <div className="flex items-center mb-4">
                 <Database className="text-blue-600 mr-3" size={24} />
                 <h4 className="text-xl font-semibold">Bases de Datos</h4>
               </div>
               <div className="flex flex-wrap gap-2">
                 {habilidades.database.map((skill) => (
-                  <span key={skill} className={`px-3 py-1 text-sm rounded-full ${isDarkMode ? 'bg-gray-800' : 'bg-gray-100'}`}>
+                  <span key={skill} className={`px-3 py-1 text-sm rounded-full ${isDarkMode ? 'bg-gray-700' : 'bg-gray-100'}`}>
                     {skill}
                   </span>
                 ))}
@@ -280,14 +399,14 @@ const Portfolio = () => {
             </div>
 
             {/* Cloud */}
-            <div className={`p-6 rounded-lg ${isDarkMode ? 'bg-gray-900' : 'bg-white'} shadow-lg`}>
+            <div className={`p-6 rounded-lg ${isDarkMode ? 'bg-gray-800' : 'bg-white'} shadow-lg`}>
               <div className="flex items-center mb-4">
                 <Cloud className="text-blue-600 mr-3" size={24} />
                 <h4 className="text-xl font-semibold">Cloud & DevOps</h4>
               </div>
               <div className="flex flex-wrap gap-2">
                 {habilidades.cloud.map((skill) => (
-                  <span key={skill} className={`px-3 py-1 text-sm rounded-full ${isDarkMode ? 'bg-gray-800' : 'bg-gray-100'}`}>
+                  <span key={skill} className={`px-3 py-1 text-sm rounded-full ${isDarkMode ? 'bg-gray-700' : 'bg-gray-100'}`}>
                     {skill}
                   </span>
                 ))}
@@ -295,14 +414,14 @@ const Portfolio = () => {
             </div>
 
             {/* Tools */}
-            <div className={`p-6 rounded-lg ${isDarkMode ? 'bg-gray-900' : 'bg-white'} shadow-lg`}>
+            <div className={`p-6 rounded-lg ${isDarkMode ? 'bg-gray-800' : 'bg-white'} shadow-lg`}>
               <div className="flex items-center mb-4">
                 <Globe className="text-blue-600 mr-3" size={24} />
                 <h4 className="text-xl font-semibold">Herramientas</h4>
               </div>
               <div className="flex flex-wrap gap-2">
                 {habilidades.tools.map((skill) => (
-                  <span key={skill} className={`px-3 py-1 text-sm rounded-full ${isDarkMode ? 'bg-gray-800' : 'bg-gray-100'}`}>
+                  <span key={skill} className={`px-3 py-1 text-sm rounded-full ${isDarkMode ? 'bg-gray-700' : 'bg-gray-100'}`}>
                     {skill}
                   </span>
                 ))}
@@ -310,14 +429,14 @@ const Portfolio = () => {
             </div>
 
             {/* Mobile */}
-            <div className={`p-6 rounded-lg ${isDarkMode ? 'bg-gray-900' : 'bg-white'} shadow-lg`}>
+            <div className={`p-6 rounded-lg ${isDarkMode ? 'bg-gray-800' : 'bg-white'} shadow-lg`}>
               <div className="flex items-center mb-4">
                 <Smartphone className="text-blue-600 mr-3" size={24} />
                 <h4 className="text-xl font-semibold">Desarrollo Móvil</h4>
               </div>
               <div className="flex flex-wrap gap-2">
                 {["iOS", "Android", "React Native", "App Store", "Google Play"].map((skill) => (
-                  <span key={skill} className={`px-3 py-1 text-sm rounded-full ${isDarkMode ? 'bg-gray-800' : 'bg-gray-100'}`}>
+                  <span key={skill} className={`px-3 py-1 text-sm rounded-full ${isDarkMode ? 'bg-gray-700' : 'bg-gray-100'}`}>
                     {skill}
                   </span>
                 ))}
@@ -328,7 +447,7 @@ const Portfolio = () => {
       </section>
 
       {/* Contacto */}
-      <section id="contacto" className={`py-20 ${isDarkMode ? 'bg-gray-900' : 'bg-white'}`}>
+      <section id="contacto" className={`py-20 ${isDarkMode ? 'bg-gray-800' : 'bg-gray-50'}`}>
         <div className="container mx-auto px-6 text-center">
           <h3 className="text-3xl md:text-4xl font-bold mb-8">¿Hablemos?</h3>
           <p className="text-lg mb-8 max-w-2xl mx-auto">
@@ -339,7 +458,7 @@ const Portfolio = () => {
           <div className="flex justify-center space-x-8 flex-wrap gap-4">
             <a 
               href="mailto:garcia.roga02@gmail.com"
-              className={`flex items-center space-x-2 px-6 py-3 rounded-lg ${isDarkMode ? 'bg-gray-800 hover:bg-gray-700' : 'bg-gray-100 hover:bg-gray-200'} transition-colors`}
+              className={`flex items-center space-x-2 px-6 py-3 rounded-lg ${isDarkMode ? 'bg-gray-900 hover:bg-gray-700' : 'bg-white hover:bg-gray-100'} shadow-md transition-colors`}
             >
               <Mail size={20} />
               <span>garcia.roga02@gmail.com</span>
@@ -347,7 +466,7 @@ const Portfolio = () => {
             
             <a 
               href="tel:+573155765423"
-              className={`flex items-center space-x-2 px-6 py-3 rounded-lg ${isDarkMode ? 'bg-gray-800 hover:bg-gray-700' : 'bg-gray-100 hover:bg-gray-200'} transition-colors`}
+              className={`flex items-center space-x-2 px-6 py-3 rounded-lg ${isDarkMode ? 'bg-gray-900 hover:bg-gray-700' : 'bg-white hover:bg-gray-100'} shadow-md transition-colors`}
             >
               <Phone size={20} />
               <span>+57 315 576 5423</span>
@@ -357,9 +476,9 @@ const Portfolio = () => {
       </section>
 
       {/* Footer */}
-      <footer className={`py-8 text-center ${isDarkMode ? 'bg-gray-800' : 'bg-gray-100'}`}>
+      <footer className={`py-8 text-center ${isDarkMode ? 'bg-gray-900' : 'bg-gray-100'}`}>
         <p className="text-sm text-gray-500">
-          © 2024 Gabriel García Rodríguez. Todos los derechos reservados.
+          © 2025 Gabriel García Rodríguez. Todos los derechos reservados.
         </p>
       </footer>
     </div>
