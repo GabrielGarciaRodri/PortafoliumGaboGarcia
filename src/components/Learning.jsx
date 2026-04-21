@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Code, Server, BookOpen, Star } from 'lucide-react';
+import { Server, BookOpen, Star } from 'lucide-react';
 
 const LEARNING = [
   { icon: Server,   label: 'Kubernetes',         desc: 'Orquestación de contenedores a escala' },
